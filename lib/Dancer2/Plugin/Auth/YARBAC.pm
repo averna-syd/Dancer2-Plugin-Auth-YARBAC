@@ -9,7 +9,7 @@ use Carp;
 use Try::Tiny;
 use Data::Dumper;
 
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 register logged_in_user => sub
 {
@@ -626,6 +626,19 @@ register delete_permission => sub
     return $provider->delete_permission( $params, $opts );
 };
 
+register provider => sub
+{
+    my $dsl    = shift;
+    my $params = shift;
+    my $opts   = shift;
+    my $app    = $dsl->app;
+    my $conf   = plugin_setting();
+
+    my $provider = _provider( $dsl, $conf, _try_realm( $app, $opts ) );
+
+    return $provider;
+};
+
 sub _require_login
 {
     my $dsl     = shift;
@@ -792,7 +805,7 @@ This framework was heavily inspired by the excellent L<Dancer::Plugin::Auth::Ext
 framework which I'd highly recommend. 
 YARBAC was designed to support secure password checking, enforced password hashing, 
 multiple authentication realms and the ability to create your own backend provider. 
-YARBAC was also designed to to be as flexialbe and as feature rich as possible 
+YARBAC was also designed to to be as flexible and as feature rich as possible 
 in the hope that I'll never have to write RBAC code for Dancer again. :) 
 While similar to Extensible in some ways, this framework has some significantly 
 different approaches. 
@@ -1974,5 +1987,21 @@ This is not enforced when creating or updating a user via YARBAC
 thus is completely optional. 
 If errors are found returns a hashref with 'error' as true otherwise 'error' 
 is false.
+
+=back
+
+=head1 MISCELLANEOUS
+
+=over 
+
+=item provider - Returns the backend provider object
+
+  get '/provider' => sub {
+    my $provider = provider();
+    #.......         
+  };
+
+Keyword 'provider' returns the backend provider object.
+Wouldn't recommend it without a good reason.
 
 =back

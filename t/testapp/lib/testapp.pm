@@ -321,6 +321,13 @@ get '/delete/permission' => sub
     return ( $delete ) ? 'yes' : 'no';
 };
 
+get '/provider' => sub
+{
+    my $provider = provider();
+
+    return Dumper $provider;
+};
+
 get '/logout' => sub 
 { 
     return logout;
