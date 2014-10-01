@@ -1081,7 +1081,7 @@ returns false.
     # Optionally user other realm than current logged in user:
     # user_has_any_role( { role_names => [ 'admin', 'managers' ] }, { realm => 'admins' } );
 
-    my $has_role = user_has_any_role( { role_name => [ 'admin', 'managers' ] } );
+    my $has_role = user_has_any_role( { role_names => [ 'admin', 'managers' ] } );
 
     unless ( $has_role ) {
         # User doesn't have the role.
