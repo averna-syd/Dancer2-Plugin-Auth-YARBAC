@@ -913,9 +913,13 @@ sub delete_user
 
     return if ( ! defined $params->{username} );
 
-    my $user = $self->retrieve_user( $params );
+    my $user  = $self->retrieve_user( $params );
+    my $roles = $self->user_roles( $params );
 
-    $self->revoke_user_role( $params );
+    for my $role ( @{ $roles } )
+    {
+        $self->revoke_user_role( { username => $params->{username}, role_name => $role->{role_name} } );
+    }
 
     return $self->db->quick_delete( $self->users_table, { $self->username_column => $params->{username} } );
 }
