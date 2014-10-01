@@ -9,7 +9,7 @@ use Carp;
 use Try::Tiny;
 use Data::Dumper;
 
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 
 register logged_in_user => sub
 {
