@@ -13,7 +13,7 @@ use Data::Dumper;
 
 extends 'Dancer2::Plugin::Auth::YARBAC::Provider::Base';
 
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 
 has users_table        => ( is => 'ro', default => \&_users_table, lazy => 1 );
 has id_column          => ( is => 'ro', default => \&_id_column, lazy => 1 );
@@ -717,19 +717,20 @@ sub revoke_user_role
     my $params = shift;
     my $opts   = shift;
 
-    return if ( ! defined $params->{username} );
+    return if ( ! defined $params->{username} || ! defined $params->{role_name} );
 
     my $user    = $self->retrieve_user( $params );
+    my $role    = $self->retrieve_role( $params );
     my $user_id = $user->{ $self->id_column };
 
-    if ( defined $user_id )
+    if ( defined $user_id && $role->{id} )
     {
-        $self->db->quick_delete( 'yarbac_user_roles', { user_id => $user_id } );
+        $self->db->quick_delete( 'yarbac_user_roles', { user_id => $user_id, role_id => $role->{id} } );
 
         return 1;
     }
 
-    $self->dsl->debug( 'YARBAC ========> Looks like either the user does not exist.' );
+    $self->dsl->debug( 'YARBAC ========> Looks like either the user or the role does not exist.' );
 
     return;
 }

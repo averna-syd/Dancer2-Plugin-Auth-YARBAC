@@ -104,7 +104,7 @@ test_psgi( app => testapp::dance, client => sub
     is $res->code => 200, 'response status is 200 for /assign/user/role';
     like $res->content => qr#yes#, '/assign/user/role content is okay';
 
-    $res = $app->( GET '/revoke/user/role?username=test', Cookie => "dancer.session=$cookie" );
+    $res = $app->( GET '/revoke/user/role?username=test&role=admin', Cookie => "dancer.session=$cookie" );
     ok $res->is_success, 'GET /revoke/user/role';
     is $res->code => 200, 'response status is 200 for /revoke/user/role';
     like $res->content => qr#yes#, '/revoke/user/role content is okay';

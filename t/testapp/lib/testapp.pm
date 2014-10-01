@@ -246,7 +246,7 @@ get '/assign/group/permission' => sub
 
 get '/revoke/user/role' => sub
 {
-    my $revoke = revoke_user_role( { username => params->{username} } );
+    my $revoke = revoke_user_role( { username => params->{username}, role_name => params->{role} } );
 
     return ( $revoke ) ? 'yes' : 'no';
 };

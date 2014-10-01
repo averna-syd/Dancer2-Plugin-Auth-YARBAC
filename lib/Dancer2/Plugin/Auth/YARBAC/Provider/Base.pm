@@ -8,7 +8,7 @@ use namespace::clean;
 use Crypt::PBKDF2;
 use Data::Dumper;
 
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 
 has dsl                   => ( is => 'ro' );
 has app                   => ( is => 'ro' );

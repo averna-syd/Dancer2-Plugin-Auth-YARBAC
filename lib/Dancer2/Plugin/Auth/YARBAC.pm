@@ -9,7 +9,7 @@ use Carp;
 use Try::Tiny;
 use Data::Dumper;
 
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 
 register logged_in_user => sub
 {
@@ -1642,10 +1642,10 @@ If the no groups exist returns false.
 
   get '/revoke/user/role' => sub {
     # Optionally use other realm than current logged in user:
-    # revoke_user_role( { username => 'sam' }, { realm => 'admins' } );
+    # revoke_user_role( { username => 'sam', role_name => 'admin' }, { realm => 'admins' } );
     #
     # Optionally use other realm than current logged in user:
-    my $revoke = revoke_user_role( { username => 'sam' } );
+    my $revoke = revoke_user_role( { username => 'sam', role_name => 'admin' } );
        
     if ( $revoke ) {
         # success
