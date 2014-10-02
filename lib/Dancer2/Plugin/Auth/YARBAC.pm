@@ -9,7 +9,7 @@ use Carp;
 use Try::Tiny;
 use Data::Dumper;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 register logged_in_user => sub
 {
@@ -909,6 +909,20 @@ In this example we'll use the 'Database' provider:
           # If true, password must contain a number
           numbers: 1
 
+In your app the order of modules loaded is important. Ensure you set 
+the session module before YARBAC. YARBAC doesn't care which session 
+module you use so long as one is loaded. 
+If you're using the L<Dancer2::Plugin::Auth::YARBAC::Provider::Database> 
+backend provider ensure you've also loaded L<Dancer2::Plugin::Database> 
+before YARBAC.
+
+  package MyPackage;
+     
+  use Dancer2;
+  use Dancer2::Plugin::Database;
+  use Dancer2::Session::Cookie;
+  use Dancer2::Plugin::Auth::YARBAC;
+
 The configuration you provide will depend on the backend provider module 
 you choose to use. In this example we're assuming the Database 
 backend provider, see: 
@@ -1003,14 +1017,18 @@ was correct and then report back with a hashref.
 
 =item login - Attempts login and then redirects.
 
-  post '/login' => sub {
+  any ['get', 'post'] => '/login' => sub {
     # Optionally set the realm:
     # return login( { username => params->{username}, 
     #                 password => params->{password} }, 
     #               { realm => params->{realm} } );
-
-    return login( { username => params->{username}, 
-                    password => params->{password} } );
+                  
+    if ( params->{username} && params->{password} ) {
+        return login( { username => params->{username},
+                        password => params->{password} } );
+    }
+          
+    template 'login', {};
   };
 
 If the user authenticates successfully this will redirect the user to whatever 
