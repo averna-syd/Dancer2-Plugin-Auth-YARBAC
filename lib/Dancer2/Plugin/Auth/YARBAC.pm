@@ -9,7 +9,7 @@ use Carp;
 use Try::Tiny;
 use Data::Dumper;
 
-our $VERSION = '0.010';
+our $VERSION = '0.011';
 
 register logged_in_user => sub
 {
@@ -1042,7 +1042,7 @@ attempts by the user with the 'login_failed' param.
 
 =item authenticate_user - Attempts auth and then returns a hashref
 
-  get '/auth/user' => sub
+  get '/auth/user' => sub {
     # Optionally set the realm:
     # my $auth = authenticate_user( { username => params->{username}, 
     #                                 password => params->{password} }, 
@@ -1373,12 +1373,12 @@ returns false.
   get '/create/user' => sub {
     # Optionally use other realm than current logged in user:
     # my $create = create_user( { username => 'Craig', 
-    #                             password => 'iloveyou' }, 
+    #                             password => 'pass' }, 
     #                           { realm => 'admins' } );
     # Oh, and don't ever use that password for real, obviously :)
 
     my $create = create_user( { username => 'Craig', 
-                                password => 'iloveyou' } );
+                                password => 'pass' } );
     if ( $create ) {
         # success
     }
