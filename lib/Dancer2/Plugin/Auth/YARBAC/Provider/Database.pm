@@ -13,7 +13,7 @@ use Data::Dumper;
 
 extends 'Dancer2::Plugin::Auth::YARBAC::Provider::Base';
 
-our $VERSION = '0.009';
+our $VERSION = '0.010';
 
 has users_table        => ( is => 'ro', default => \&_users_table, lazy => 1 );
 has id_column          => ( is => 'ro', default => \&_id_column, lazy => 1 );
