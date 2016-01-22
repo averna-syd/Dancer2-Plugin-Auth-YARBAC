@@ -7,10 +7,6 @@ use Plack::Test;
 use HTTP::Request::Common;
 use Data::Dumper;
 
-unless ( $ENV{RELEASE_TESTING} ) {
-    plan( skip_all => "Author tests not required for installation" );
-}
-
 plan( tests => 10 );
 
 use testapp;
