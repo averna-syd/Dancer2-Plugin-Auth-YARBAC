@@ -1007,7 +1007,7 @@ sub _sanitize_user_params
         delete $params->{password};
     }
 
-    my $sql = 'SELECT * FROM users LIMIT 0';
+    my $sql = 'SELECT * FROM ' . $self->users_table . ' LIMIT 0';
     my $sth = $self->db->prepare( $sql );
 
     $sth->execute();
